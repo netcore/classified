@@ -5,7 +5,7 @@ namespace Modules\Classified\Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
-class ClassifiedDatabaseSeeder extends Seeder
+class FieldsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,6 +16,6 @@ class ClassifiedDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        $this->call(MenusTableSeeder::class);
+        // $this->call("OthersTableSeeder");
     }
 }

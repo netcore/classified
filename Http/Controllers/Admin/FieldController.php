@@ -1,12 +1,13 @@
 <?php
 
-namespace Modules\Classified\Http\Controllers;
+namespace Modules\Classified\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Modules\Classified\Models\Field;
 
-class ClassifiedController extends Controller
+class FieldController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +15,8 @@ class ClassifiedController extends Controller
      */
     public function index()
     {
-        return view('classified::index');
+        $fields = Field::with('attributes')->get();
+        return view('classified::fields.index', compact('fields'));
     }
 
     /**
