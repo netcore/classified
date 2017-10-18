@@ -1,0 +1,16 @@
+{
+    "name": "Classified",
+    "alias": "classified",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Classified\\Providers\\ClassifiedServiceProvider"
+    ],
+    "aliases": [],
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}
