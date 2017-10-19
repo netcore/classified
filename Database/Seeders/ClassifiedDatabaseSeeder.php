@@ -17,5 +17,6 @@ class ClassifiedDatabaseSeeder extends Seeder
         Model::unguard();
 
         $this->call(MenusTableSeeder::class);
+        $this->call(FieldsTableSeeder::class);
     }
 }

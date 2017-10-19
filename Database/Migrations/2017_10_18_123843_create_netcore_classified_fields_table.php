@@ -18,8 +18,7 @@ class CreateNetcoreClassifiedFieldsTable extends Migration
             $table->boolean('is_active')->default(1);
             $table->string('type');
             $table->string('options')->default(json_encode([]));
-            $table->string('icon');
-            $table->string('field');
+            $table->string('input')->index();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -14,7 +14,7 @@ class Field extends Model
      *
      * @var string
      */
-    protected $table = 'netcore_classified__field';
+    protected $table = 'netcore_classified__fields';
 
     use Translatable, SyncTranslations;
 
@@ -23,10 +23,8 @@ class Field extends Model
      */
     protected $fillable = [
         'type',
-        'icon',
-        'field',
         'options',
-        'category',
+        'input',
         'is_active',
     ];
     /**

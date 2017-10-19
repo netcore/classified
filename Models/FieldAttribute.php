@@ -12,6 +12,13 @@ class FieldAttribute extends Model
     use Translatable, SyncTranslations;
 
     /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'netcore_classified__field_attributes';
+
+    /**
      * @var array
      */
     protected $fillable = [
