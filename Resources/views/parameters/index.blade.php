@@ -17,39 +17,37 @@
                         <thead>
                         <tr>
                             <th>Name</th>
-                            <th>Placeholder</th>
-                            <th>Is visible?</th>
-                            <th>Type</th>
-                            <th>Options</th>
+                            <th>Attributes</th>
+                            <th>Categories</th>
                             <th width="10%">Action</th>
                         </tr>
                         </thead>
                         <tbody>
-                            @foreach($fields as $field)
-                                <tr class="object{{ $field->id }}">
+                            @foreach($parameters as $parameter)
+                                <tr class="object{{ $parameter->id }}">
                                     <td>
                                         <ul>
                                             @foreach($languages as $language)
-                                                <li><b>{{ strtoupper($language->iso_code) }}</b>: {{ trans_model($field, $language, 'name') }}</li>
+                                                <li><b>{{ strtoupper($language->iso_code) }}</b>: {{ trans_model($parameter, $language, 'name') }}</li>
                                             @endforeach
                                         </ul>
                                     </td>
                                     <td>
                                         <ul>
-                                            @foreach($languages as $language)
-                                                @if(!trans_model($field, $language, 'placeholder'))
-                                                    @continue
-                                                @endif
-                                                <li><b>{{ strtoupper($language->iso_code) }}</b>: {{ trans_model($field, $language, 'placeholder') }}</li>
+                                            @php
+                                                $enLanguage = $languages->where('iso_code', 'en')->first();
+                                            @endphp
+                                            @foreach($parameter->attributes as $attribute)
+                                                <li>{{ trans_model($attribute, $enLanguage, 'name') }}</li>
                                             @endforeach
                                         </ul>
                                     </td>
-                                    <td>{{ $field->is_active ? 'Visible' : 'Not visible' }}</td>
-                                    <td>{{ ucfirst($field->type) }}</td>
-                                    <td>{{ $field->options }}</td>
+                                    <td>
+
+                                    </td>
                                     <td class="text-center">
-                                        <a href="{{ route('admin::classified.parameters.edit', $field) }}" class="btn btn-primary btn-sm">Edit</a>
-                                        <a href="{{ route('admin::classified.parameters.destroy', $field) }}" data-id="{{ $field->id }}" class="btn btn-danger btn-sm confirm-delete">Delete</a>
+                                        <a href="{{ route('admin::classified.parameters.edit', $parameter) }}" class="btn btn-primary btn-sm">Edit</a>
+                                        <a href="{{ route('admin::classified.parameters.destroy', $parameter) }}" data-id="{{ $parameter->id }}" class="btn btn-danger btn-sm confirm-delete">Delete</a>
                                     </td>
                                 </tr>
                             @endforeach

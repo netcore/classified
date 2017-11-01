@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Classified\Models\Field;
 use Modules\Classified\Models\Parameter;
+use Modules\Classified\Models\ParameterAttribute;
 use Netcore\Translator\Helpers\TransHelper;
 
 class ParameterController extends Controller
@@ -17,9 +18,9 @@ class ParameterController extends Controller
      */
     public function index()
     {
-        $fields = Parameter::with('attributes')->get();
+        $parameters = Parameter::with('attributes')->get();
         $languages = TransHelper::getAllLanguages();
-        return view('classified::fields.index', compact('fields', 'languages'));
+        return view('classified::parameters.index', compact('parameters', 'languages'));
     }
 
     /**
@@ -51,11 +52,12 @@ class ParameterController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     * @return Response
+     * @param Parameter $parameter
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit(Parameter $field)
+    public function edit(Parameter $parameter)
     {
-        return view('classified::fields.edit', compact('field'));
+        return view('classified::parameters.edit', compact('parameter'));
     }
 
     /**
@@ -73,5 +75,46 @@ class ParameterController extends Controller
      */
     public function destroy()
     {
+    }
+
+    /**
+     * @param Request $request
+     * @param Parameter $parameter
+     * @return array
+     */
+    public function updateAttribute(Request $request, Parameter $parameter)
+    {
+
+        $field = $request->get('name');
+        $values = explode(':', $field); // ['name', 'lv']
+
+        $attribute = ParameterAttribute::find($request->get('pk'));
+        // Translation attribute/single param
+        if(count($values) == 2) {
+            $attribute->translateOrNew($values[1])->{$values[0]} = $request->get('value');
+        } else {
+            $attribute->{$values[0]} = $request->get('value');
+        }
+
+        $attribute->save();
+
+
+
+        return [
+            'state' => 'success'
+        ];
+    }
+
+    /**
+     * @param ParameterAttribute $attribute
+     * @return array
+     */
+    public function destroyAttribute(ParameterAttribute $attribute)
+    {
+        $attribute->delete();
+
+        return [
+            'state' => 'success'
+        ];
     }
 }

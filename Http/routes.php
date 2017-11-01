@@ -7,4 +7,14 @@ Route::group([
     'namespace'  => 'Modules\Classified\Http\Controllers\Admin'
 ], function () {
     Route::resource('parameters', 'ParameterController');
+
+    Route::delete('/parameters/destroy-attribute/{attribute}', [
+        'uses' => 'ParameterController@destroyAttribute',
+        'as'   => 'parameters.destroy-attribute'
+    ]);
+
+    Route::put('/parameters/update-attributes/{attribute}', [
+        'uses' => 'ParameterController@updateAttribute',
+        'as'   => 'parameters.update-attributes'
+    ]);
 });

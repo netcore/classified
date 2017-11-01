@@ -29,12 +29,12 @@ class CreateNetcoreClassifiedFieldAttributesTable extends Migration
 
         Schema::create('netcore_classified__parameter_attribute_translations', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('attribute_id');
+            $table->unsignedInteger('parameter_attribute_id');
             $table->string('name');
             $table->string('locale', 2)->index('locale');
             $table->softDeletes();
 
-            $table->foreign('attribute_id', 'attribute_id')
+            $table->foreign('parameter_attribute_id', 'attribute_id')
                 ->references('id')
                 ->on('netcore_classified__parameter_attributes')
                 ->onDelete('cascade');
