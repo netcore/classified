@@ -1,5 +1,7 @@
 <?php
 
 return [
-    'name' => 'Classified'
+    'parameters' => [
+        'attach_to_categories' => true, // Allows to attach specific parameters for specific categories
+    ]
 ];

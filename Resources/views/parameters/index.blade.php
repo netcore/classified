@@ -43,7 +43,12 @@
                                         </ul>
                                     </td>
                                     <td>
-
+                                        @php
+                                            $enLanguage = $languages->where('iso_code', 'en')->first();
+                                        @endphp
+                                        @foreach($parameter->categories as $category)
+                                            <li>{{ trans_model($category, $enLanguage, 'name') }}</li>
+                                        @endforeach
                                     </td>
                                     <td class="text-center">
                                         <a href="{{ route('admin::classified.parameters.edit', $parameter) }}" class="btn btn-primary btn-sm">Edit</a>

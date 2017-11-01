@@ -5,10 +5,12 @@ namespace Modules\Classified\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use Modules\Classified\Models\Field;
+use Modules\Category\Models\Category;
+use Modules\Classified\Http\Requests\ParametersRequest;
 use Modules\Classified\Models\Parameter;
 use Modules\Classified\Models\ParameterAttribute;
 use Netcore\Translator\Helpers\TransHelper;
+use Nwidart\Modules\Facades\Module;
 
 class ParameterController extends Controller
 {
@@ -57,16 +59,41 @@ class ParameterController extends Controller
      */
     public function edit(Parameter $parameter)
     {
-        return view('classified::parameters.edit', compact('parameter'));
+        $categories = null;
+        $attachCategories = config('netcore.module-classified.parameters.attach_to_categories');
+
+        if($attachCategories) {
+            $categories = Category::where('parent_id', null)->get();
+        }
+
+        return view('classified::parameters.edit', compact('parameter', 'attachCategories', 'categories'));
     }
 
     /**
      * Update the specified resource in storage.
-     * @param  Request $request
-     * @return Response
+     * @param ParametersRequest $request
+     * @param Parameter $parameter
+     * @return
      */
-    public function update(Request $request)
+    public function update(ParametersRequest $request, Parameter $parameter)
     {
+        $request->merge([
+            'is_active' => $request->has('is_active')
+        ]);
+
+        $parameter->updateTranslations(
+            $request->input('translations', [])
+        );
+
+        if(config('netcore.module-classified.parameters.attach_to_categories')) {
+            //update categories
+            $categories = $request->get('categories', []);
+            $parameter->categories()->sync($categories);
+        }
+
+
+
+        return redirect()->back()->withSuccess('Parameter successfully edited!');
     }
 
     /**

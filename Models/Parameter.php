@@ -5,10 +5,12 @@ namespace Modules\Classified\Models;
 use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Admin\Traits\SyncTranslations;
+use Modules\Category\Models\Category;
 use Modules\Classified\Translations\ParameterTranslation;
 
 class Parameter extends Model
 {
+
     /**
      * The table associated with the model.
      *
@@ -50,6 +52,18 @@ class Parameter extends Model
     public function attributes()
     {
         return $this->hasMany(ParameterAttribute::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany|\Illuminate\Support\Collection
+     */
+    public function categories()
+    {
+        if (config('netcore.module-classified.parameters.attach_to_categories')) {
+            return $this->belongsToMany(Category::class, 'netcore_classified__category_parameter');
+        }
+
+        return collect([]);
     }
 
     /**

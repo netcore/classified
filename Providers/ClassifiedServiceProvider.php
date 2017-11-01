@@ -46,10 +46,10 @@ class ClassifiedServiceProvider extends ServiceProvider
     protected function registerConfig()
     {
         $this->publishes([
-            __DIR__.'/../Config/config.php' => config_path('classified.php'),
+            __DIR__.'/../Config/config.php' => config_path('netcore/module-classified.php'),
         ], 'config');
         $this->mergeConfigFrom(
-            __DIR__.'/../Config/config.php', 'classified'
+            __DIR__.'/../Config/config.php', 'netcore/module-classified'
         );
     }
 
