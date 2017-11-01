@@ -5,9 +5,9 @@ namespace Modules\Classified\Models;
 use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Admin\Traits\SyncTranslations;
-use Modules\Classified\Translations\FieldAttributeTranslation;
+use Modules\Classified\Translations\ParameterAttributeTranslation;
 
-class FieldAttribute extends Model
+class ParameterAttribute extends Model
 {
     use Translatable, SyncTranslations;
 
@@ -16,7 +16,7 @@ class FieldAttribute extends Model
      *
      * @var string
      */
-    protected $table = 'netcore_classified__field_attributes';
+    protected $table = 'netcore_classified__parameter_attributes';
 
     /**
      * @var array
@@ -29,7 +29,7 @@ class FieldAttribute extends Model
     /**
      * @var string
      */
-    public $translationModel = FieldAttributeTranslation::class;
+    public $translationModel = ParameterAttributeTranslation::class;
 
     /**
      * @var array

@@ -6,9 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Classified\Models\Field;
+use Modules\Classified\Models\Parameter;
 use Netcore\Translator\Helpers\TransHelper;
 
-class FieldController extends Controller
+class ParameterController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +17,7 @@ class FieldController extends Controller
      */
     public function index()
     {
-        $fields = Field::with('attributes')->get();
+        $fields = Parameter::with('attributes')->get();
         $languages = TransHelper::getAllLanguages();
         return view('classified::fields.index', compact('fields', 'languages'));
     }
@@ -52,7 +53,7 @@ class FieldController extends Controller
      * Show the form for editing the specified resource.
      * @return Response
      */
-    public function edit(Field $field)
+    public function edit(Parameter $field)
     {
         return view('classified::fields.edit', compact('field'));
     }

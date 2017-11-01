@@ -5,16 +5,16 @@ namespace Modules\Classified\Models;
 use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Admin\Traits\SyncTranslations;
-use Modules\Classified\Translations\FieldTranslation;
+use Modules\Classified\Translations\ParameterTranslation;
 
-class Field extends Model
+class Parameter extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'netcore_classified__fields';
+    protected $table = 'netcore_classified__parameters';
 
     use Translatable, SyncTranslations;
 
@@ -30,7 +30,7 @@ class Field extends Model
     /**
      * @var string
      */
-    public $translationModel = FieldTranslation::class;
+    public $translationModel = ParameterTranslation::class;
 
     /**
      * @var array
@@ -49,41 +49,16 @@ class Field extends Model
      */
     public function attributes()
     {
-        return $this->hasMany(FieldAttribute::class);
-    }
-
-    public function advertisements()
-    {
-        return $this->belongsToMany(Advertisement::class,
-            'advertisement_parameter_attribute')->withPivot('value')->with('attributes');
+        return $this->hasMany(ParameterAttribute::class);
     }
 
     /**
-     * @return string
-     */
-    public function getCategoryNameAttribute()
-    {
-        switch ($this->category) {
-            case 'cars':
-                $category = 'Auto';
-                break;
-            case 'moto':
-                $category = 'Moto';
-                break;
-            case 'trucks':
-                $category = 'Kravas';
-                break;
-        }
-
-        return $category;
-    }
-
-    /**
+     * @param $query
      * @return mixed
      */
-    public function getSvgIconAttribute()
+    public function scopeActive($query)
     {
-        return array_last(explode('/', $this->icon));
+        return $query->where('is_active', 1);
     }
 
     /**
@@ -120,13 +95,5 @@ class Field extends Model
         });
 
         return json_encode($attributes);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSelectIconAttribute()
-    {
-        return str_replace('filter-', '', $this->svg_icon);
     }
 }

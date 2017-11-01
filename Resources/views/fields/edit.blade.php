@@ -8,7 +8,7 @@
                     <h4 class="panel-title">
                         Classifieds field list
                         <div class="pull-right">
-                            <a href="{{ route('admin::classified.fields.create') }}" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Add field</a>
+                            <a href="{{ route('admin::classified.parameters.create') }}" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Add field</a>
                         </div>
                     </h4>
                 </div>

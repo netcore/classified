@@ -6,5 +6,5 @@ Route::group([
     'middleware' => ['web', 'auth.admin'],
     'namespace'  => 'Modules\Classified\Http\Controllers\Admin'
 ], function () {
-    Route::resource('fields', 'FieldController');
+    Route::resource('parameters', 'ParameterController');
 });

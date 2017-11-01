@@ -13,30 +13,30 @@ class CreateNetcoreClassifiedFieldAttributesTable extends Migration
      */
     public function up()
     {
-        Schema::create('netcore_classified__field_attributes', function (Blueprint $table) {
+        Schema::create('netcore_classified__parameter_attributes', function (Blueprint $table) {
             $table->increments('id');
             $table->boolean('is_active')->default(1);
-            $table->integer('field_id')->unsigned();
+            $table->integer('parameter_id')->unsigned();
             $table->string('value')->nullable();
 
             $table->timestamps();
 
-            $table->foreign('field_id', 'field_id')
+            $table->foreign('parameter_id', 'parameter_id')
                 ->references('id')
-                ->on('netcore_classified__fields')
+                ->on('netcore_classified__parameters')
                 ->onDelete('cascade');
         });
 
-        Schema::create('netcore_classified__field_attribute_translations', function (Blueprint $table) {
+        Schema::create('netcore_classified__parameter_attribute_translations', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('field_attribute_id');
+            $table->unsignedInteger('attribute_id');
             $table->string('name');
-            $table->string('locale', 2)->index();
+            $table->string('locale', 2)->index('locale');
             $table->softDeletes();
 
-            $table->foreign('field_attribute_id', 'field_attribute_id')
+            $table->foreign('attribute_id', 'attribute_id')
                 ->references('id')
-                ->on('netcore_classified__field_attributes')
+                ->on('netcore_classified__parameter_attributes')
                 ->onDelete('cascade');
         });
     }
@@ -48,7 +48,7 @@ class CreateNetcoreClassifiedFieldAttributesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('netcore_classified__field_attribute_translations');
-        Schema::dropIfExists('netcore_classified__field_attributes');
+        Schema::dropIfExists('netcore_classified__parameter_attribute_translations');
+        Schema::dropIfExists('netcore_classified__parameter_attributes');
     }
 }

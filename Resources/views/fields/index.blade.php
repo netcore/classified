@@ -8,7 +8,7 @@
                     <h4 class="panel-title">
                         Classifieds field list
                         <div class="pull-right">
-                            <a href="{{ route('admin::classified.fields.create') }}" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Add field</a>
+                            <a href="{{ route('admin::classified.parameters.create') }}" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Add field</a>
                         </div>
                     </h4>
                 </div>
@@ -17,7 +17,9 @@
                         <thead>
                         <tr>
                             <th>Name</th>
+                            <th>Placeholder</th>
                             <th>Is visible?</th>
+                            <th>Type</th>
                             <th>Options</th>
                             <th width="10%">Action</th>
                         </tr>
@@ -28,15 +30,26 @@
                                     <td>
                                         <ul>
                                             @foreach($languages as $language)
-                                                <li>{{ trans_model($field, $language, 'name') }}</li>
+                                                <li><b>{{ strtoupper($language->iso_code) }}</b>: {{ trans_model($field, $language, 'name') }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <ul>
+                                            @foreach($languages as $language)
+                                                @if(!trans_model($field, $language, 'placeholder'))
+                                                    @continue
+                                                @endif
+                                                <li><b>{{ strtoupper($language->iso_code) }}</b>: {{ trans_model($field, $language, 'placeholder') }}</li>
                                             @endforeach
                                         </ul>
                                     </td>
                                     <td>{{ $field->is_active ? 'Visible' : 'Not visible' }}</td>
+                                    <td>{{ ucfirst($field->type) }}</td>
                                     <td>{{ $field->options }}</td>
                                     <td class="text-center">
-                                        <a href="{{ route('admin::classified.fields.edit', $field) }}" class="btn btn-primary btn-sm">Edit</a>
-                                        <a href="{{ route('admin::classified.fields.destroy', $field) }}" data-id="{{ $field->id }}" class="btn btn-danger btn-sm confirm-delete">Delete</a>
+                                        <a href="{{ route('admin::classified.parameters.edit', $field) }}" class="btn btn-primary btn-sm">Edit</a>
+                                        <a href="{{ route('admin::classified.parameters.destroy', $field) }}" data-id="{{ $field->id }}" class="btn btn-danger btn-sm confirm-delete">Delete</a>
                                     </td>
                                 </tr>
                             @endforeach

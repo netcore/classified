@@ -4,14 +4,14 @@ namespace Modules\Classified\Translations;
 
 use Illuminate\Database\Eloquent\{Model,SoftDeletes};
 
-class FieldAttributeTranslation extends Model
+class ParameterAttributeTranslation extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'netcore_classified__field_attribute_translations';
+    protected $table = 'netcore_classified__parameter_attribute_translations';
 
     use SoftDeletes;
 

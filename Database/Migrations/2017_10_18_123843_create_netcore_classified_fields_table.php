@@ -13,7 +13,7 @@ class CreateNetcoreClassifiedFieldsTable extends Migration
      */
     public function up()
     {
-        Schema::create('netcore_classified__fields', function (Blueprint $table) {
+        Schema::create('netcore_classified__parameters', function (Blueprint $table) {
             $table->increments('id');
             $table->boolean('is_active')->default(1);
             $table->string('type');
@@ -23,16 +23,16 @@ class CreateNetcoreClassifiedFieldsTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('netcore_classified__field_translations', function (Blueprint $table) {
+        Schema::create('netcore_classified__parameter_translations', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('field_id');
+            $table->unsignedInteger('parameter_id');
             $table->string('locale', 2)->index();
             $table->string('name');
             $table->softDeletes();
 
-            $table->foreign('field_id')
+            $table->foreign('parameter_id')
                 ->references('id')
-                ->on('netcore_classified__fields')
+                ->on('netcore_classified__parameters')
                 ->onDelete('cascade');
 
         });
@@ -45,7 +45,7 @@ class CreateNetcoreClassifiedFieldsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('netcore_classified__field_translations');
-        Schema::dropIfExists('netcore_classified__fields');
+        Schema::dropIfExists('netcore_classified__parameter_translations');
+        Schema::dropIfExists('netcore_classified__parameters');
     }
 }

@@ -18,41 +18,6 @@ class FieldsTableSeeder extends Seeder
     {
         Model::unguard();
 
-        $fields = [
-            [
-                'input'        => 'title',
-                'type'         => 'text',
-                'translations' => [
-                    'en' => [
-                        'name' => 'Title'
-                    ]
-                ]
-            ],
-            [
-                'input'        => 'description',
-                'type'         => 'textarea',
-                'translations' => [
-                    'en' => [
-                        'name' => 'Desription'
-                    ]
-                ]
-            ],
-            [
-                'input'        => 'price',
-                'type'         => 'numeric',
-                'translations' => [
-                    'en' => [
-                        'name' => 'Price'
-                    ]
-                ]
-            ],
-        ];
 
-        foreach ($fields as $field) {
-            $entry = Field::firstOrCreate(array_except($field, 'translations'));
-            if (!$entry->translations->count()) {
-                $entry->storeTranslations($field['translations']);
-            }
-        }
     }
 }

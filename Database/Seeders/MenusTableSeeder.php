@@ -29,15 +29,24 @@ class MenusTableSeeder extends Seeder
                     'is_active'  => 1,
                     'parameters' => json_encode([]),
                     'children'   => [
+//                        [
+//                            'name'            => 'Fields',
+//                            'type'            => 'route',
+//                            'value'           => 'admin::classified.fields.index',
+//                            'active_resolver' => 'admin::classified.fields.*',
+//                            'module'          => 'Classified',
+//                            'is_active'       => 1,
+//                            'parameters'      => json_encode([])
+//                        ],
                         [
-                            'name'            => 'Fields',
+                            'name'            => 'Parameters/Attributes',
                             'type'            => 'route',
-                            'value'           => 'admin::classified.fields.index',
-                            'active_resolver' => 'admin::classified.fields.*',
+                            'value'           => 'admin::classified.parameters.index',
+                            'active_resolver' => 'admin::classified.parameters.*',
                             'module'          => 'Classified',
                             'is_active'       => 1,
                             'parameters'      => json_encode([])
-                        ]
+                        ],
                     ]
                 ],
             ]
