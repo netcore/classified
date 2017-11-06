@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller;
 use Modules\Category\Models\Category;
 use Modules\Classified\Http\Requests\ParametersRequest;
 use Modules\Classified\Http\Requests\StoreAttributesRequest;
+use Modules\Classified\Http\Requests\StoreParameterRequest;
 use Modules\Classified\Models\Parameter;
 use Modules\Classified\Models\ParameterAttribute;
 use Netcore\Translator\Helpers\TransHelper;
@@ -15,6 +16,7 @@ use Nwidart\Modules\Facades\Module;
 
 class ParameterController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      * @return Response
@@ -23,6 +25,7 @@ class ParameterController extends Controller
     {
         $parameters = Parameter::with('attributes')->get();
         $languages = TransHelper::getAllLanguages();
+
         return view('classified::parameters.index', compact('parameters', 'languages'));
     }
 
@@ -32,16 +35,27 @@ class ParameterController extends Controller
      */
     public function create()
     {
-        return view('classified::create');
+        $languages = TransHelper::getAllLanguages();
+
+        return view('classified::parameters.create', compact('languages'));
     }
 
     /**
      * Store a newly created resource in storage.
-     * @param  Request $request
+     * @param StoreParameterRequest $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(StoreParameterRequest $request)
     {
+        $parameter = Parameter::create([
+            'is_active' => 1,
+            'type'      => 'text',
+            'input'     => 'title',
+        ]);
+
+        $parameter->storeTranslations($request->get('translations', []));
+
+        return redirect()->route('admin::classified.parameters.edit', $parameter);
     }
 
     /**
@@ -63,7 +77,7 @@ class ParameterController extends Controller
         $categories = null;
         $attachCategories = config('netcore.module-classified.parameters.attach_to_categories');
 
-        if($attachCategories) {
+        if ($attachCategories) {
             $categories = Category::where('parent_id', null)->get();
         }
 
@@ -86,12 +100,11 @@ class ParameterController extends Controller
             $request->input('translations', [])
         );
 
-        if(config('netcore.module-classified.parameters.attach_to_categories')) {
+        if (config('netcore.module-classified.parameters.attach_to_categories')) {
             //update categories
             $categories = $request->get('categories', []);
             $parameter->categories()->sync($categories);
         }
-
 
 
         return redirect()->back()->withSuccess('Parameter successfully edited!');
@@ -118,14 +131,13 @@ class ParameterController extends Controller
 
         $attribute = ParameterAttribute::find($request->get('pk'));
         // Translation attribute/single param
-        if(count($values) == 2) {
+        if (count($values) == 2) {
             $attribute->translateOrNew($values[1])->{$values[0]} = $request->get('value');
         } else {
             $attribute->{$values[0]} = $request->get('value');
         }
 
         $attribute->save();
-
 
 
         return [
@@ -147,8 +159,9 @@ class ParameterController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param StoreAttributesRequest $request
      * @param Parameter $parameter
+     * @return array
      */
     public function storeAttribute(StoreAttributesRequest $request, Parameter $parameter)
     {
@@ -156,7 +169,7 @@ class ParameterController extends Controller
         $attribute->storeTranslations($request->input('translations', []));
 
         return [
-            'message' => 'Attribute successfully stored!',
+            'message'  => 'Attribute successfully stored!',
             'redirect' => route('admin::classified.parameters.edit', $parameter->id)
         ];
     }
