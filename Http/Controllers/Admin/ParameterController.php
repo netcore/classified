@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Category\Models\Category;
 use Modules\Classified\Http\Requests\ParametersRequest;
+use Modules\Classified\Http\Requests\StoreAttributesRequest;
 use Modules\Classified\Models\Parameter;
 use Modules\Classified\Models\ParameterAttribute;
 use Netcore\Translator\Helpers\TransHelper;
@@ -142,6 +143,21 @@ class ParameterController extends Controller
 
         return [
             'state' => 'success'
+        ];
+    }
+
+    /**
+     * @param Request $request
+     * @param Parameter $parameter
+     */
+    public function storeAttribute(StoreAttributesRequest $request, Parameter $parameter)
+    {
+        $attribute = $parameter->attributes()->create([]);
+        $attribute->storeTranslations($request->input('translations', []));
+
+        return [
+            'message' => 'Attribute successfully stored!',
+            'redirect' => route('admin::classified.parameters.edit', $parameter->id)
         ];
     }
 }

@@ -17,4 +17,9 @@ Route::group([
         'uses' => 'ParameterController@updateAttribute',
         'as'   => 'parameters.update-attributes'
     ]);
+
+    Route::post('/parameters/{parameter}/store-attribute', [
+        'uses' => 'ParameterController@storeAttribute',
+        'as'   => 'parameters.store-attributes'
+    ]);
 });

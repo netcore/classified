@@ -10,9 +10,10 @@
             @include('admin::_partials._messages')
             {{ Form::model($parameter, ['route' => ['admin::classified.parameters.update', $parameter->id], 'method' => 'PUT', 'class' => 'form-horizontal']) }}
 
-            @include('translate::_partials.language_tabs')
+            @include('translate::_partials._nav_tabs')
             @include('classified::parameters._form')
 
+            <hr>
             @if($attachCategories)
             <div class="form-group">
                 <label class="col-md-2 control-label">Categories</label>
@@ -79,9 +80,9 @@
                             </ul>
                         </td>
                         <td>
-                            <input class="changable-state" type="checkbox" data-render="switchery"
+                            <input class="changeable-state" type="checkbox" data-render="switchery"
                                    data-column="is_active"
-                                   data-theme="default" data-id="{{ $attribute->id }}" data-model="ParameterAttribute"
+                                   data-theme="default" data-id="{{ $attribute->id }}" data-model="\Modules\Classified\Models\ParameterAttribute"
                                    data-switchery="true" {{ $attribute->is_active ? 'checked="checked"' : '' }} />
                         </td>
                         <td>
@@ -96,6 +97,8 @@
             </table>
         </div>
     </div>
+
+    @include('classified::_partials.create-attribute-modal')
 @endsection
 
 @section('scripts')
