@@ -52,7 +52,19 @@
                                     </td>
                                     <td class="text-center">
                                         <a href="{{ route('admin::classified.parameters.edit', $parameter) }}" class="btn btn-primary btn-sm">Edit</a>
-                                        <a href="{{ route('admin::classified.parameters.destroy', $parameter) }}" data-id="{{ $parameter->id }}" class="btn btn-danger btn-sm confirm-delete">Delete</a>
+                                        <a
+                                                class="btn btn-sm btn-danger confirm-action"
+                                                data-title="Confirm action?"
+                                                data-text="Parameter will be deleted. Are you sure?"
+                                                data-confirm-button-text="Delete"
+                                                data-method="DELETE"
+                                                data-href="{{ route('admin::classified.parameters.destroy', $parameter) }}"
+                                                data-success-title="Action completed"
+                                                data-success-text="Parameter successfully deleted!"
+                                                data-refresh-page-on-success="true"
+                                        >
+                                            <i class="fa fa-trash"></i> Delete
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach

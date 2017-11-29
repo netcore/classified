@@ -111,11 +111,16 @@ class ParameterController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @return Response
+     * @param Parameter $parameter
+     * @return array
      */
-    public function destroy()
+    public function destroy(Parameter $parameter)
     {
+        $parameter->delete();
+
+        return [
+            'type' => 'success'
+        ];
     }
 
     /**
